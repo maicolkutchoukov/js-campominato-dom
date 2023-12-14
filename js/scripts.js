@@ -23,16 +23,16 @@ const win = document.getElementById('win-lose');
 const endGame = document.getElementById('end-game');
 const risultato = document.getElementById('win-lose');
 const scoreText = document.getElementById('score');
-console.log(scoreText)
+
+
 startButton.addEventListener ('click', function(){
-    let counter = 0;
-    
+    let counter = 1;
     myContainer.innerHTML = "";
-    endGame.classList.remove('block')
+    endGame.classList.remove('block', 'lose', 'win')
     scoreText.innerHTML += ""
     const bombs = [];
     const difficult = parseInt(mySelect.value);
-    console.log(difficult);
+
     while (bombs.length < 16){
         // Genero numero casuale
         const n = generateRandomNumber(1, difficult);
@@ -41,51 +41,41 @@ startButton.addEventListener ('click', function(){
             bombs.push(n);
         }
     }
-    console.log(bombs);
+    console.log('bombe', bombs, bombs.length)
     for (let i = 0; i < difficult; i++) {        
         const square = document.createElement('div');
         square.classList.add('cell', 'cell-' + difficult);
         square.innerHTML = i + 1;
-        myContainer.append(square);
-        
-        
+        myContainer.append(square); 
         //  Evento click sulla cella        
         square.addEventListener('click', function(){
-            let control = square.classList.contains('active');
+            
+            let clicked = square.classList.contains('active');
             square.classList.add('active');            
-            let flag = false
-            console.log(square.innerHTML);
-            console.log(control);
+            let flag = false;      
             // Ciclo di controllo se è una bomba
             for (let i = 0; i < bombs.length; i++) {
-                if (square.innerHTML == bombs[i]){
-                    console.log('bomba');
+                if (square.innerHTML == bombs[i]){    
                     flag = true;
                     square.classList.add('lose')
-                } 
-                
+                }                
             }
-            // Fine ciclo
-            // Se non ho beccato una bomba allora incremento il punteggio (counter)
-            // Se ho beccato una bomba finisce la partita
-            // Se ho cliccato tutte le caselle senza bomba finisce la partita e ho vinto 
-            // Se ho gia cliccato la casella non incremento il punteggio
-            if (control){
-                console.log('cliccata')
+            if (!clicked){
+                if (counter >= difficult - bombs.length){
+                    risultato.innerHTML = "Hai vinto, sei un grande";
+                    scoreText.innerHTML ="Punteggio : " + counter;
+                    endGame.classList.add('block', 'win');                    
+                } else if (!flag){
+                    counter++
+                } else if (flag){
+                    counter -= 1
+                    risultato.innerHTML = "Hai perso";
+                    scoreText.innerHTML ="Punteggio : " + counter;
+                    endGame.classList.add('block', 'lose');                
+                }
             }
-            else if (!flag){
-                counter++
-            } else if (flag){
-               risultato.innerHTML = "Hai perso";
-                scoreText.innerHTML ="Punteggio : " + counter;
-                endGame.classList.add('block')
-                console.log('Hai perso')
-            } else if (counter == difficult - bombs.length){
-                console.log('Hai vinto')
-            }
-            console.log(counter)
         })
-    }    
+    }
 })
 
 /* 

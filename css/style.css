@@ -56,22 +56,26 @@
     height: 750px;
     background-color: rgba(255, 0, 0, 0.446);
     display: none;
-    /* display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column; */
 }
 
 #win-lose{
     font-size: 100px;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px black
+}
+
+#score{
+    text-shadow: 2px 2px 5px black
 }
 
 #end-game.win{
     color: green;
+    background-color: rgba(0, 128, 0, 0.6);
 }
 
 #end-game.lose{
     color: red;
+    background-color: rgba(255, 0, 0, 0.6);
 }
 
 .lose{
